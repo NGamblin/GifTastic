@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/style.css"/>
+    <title>Gif My Life</title>
+</head>
+<body id="bootstrapOverrides">
+    <container>
+        <header>
+            <h1>Go Gif Yourself</h1>
+        </header>
+
+        <section id="buttonSection">
+        </section>
+
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" id="searchBox" placeholder="Add a new button for your favorite pupper!">
+                <button type="submit" id="searchSubmit"class="btn btn-primary">Search</button>
+        
+            </div>
+        </form>
+
+        <!--empty Div for returned Gifs  -->
+        <div id="imageDiv">
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script type="text/javascript">
+
+            var dogs = ["Corgi","Dalmation","Bulldog","Collie","Pug"]
+
+            for (i=0; i < dogs.length; i++){
+
+                $("#buttonSection").append("<button class='dogButton btn btn-secondary' value='"+ dogs[i]+"'"+">"+dogs[i]+"</button>")
+
+            }
+            
+            $(document).on("click", ".dogButton", function(event){
+                $("#imageDiv").empty();
+                var searchString = event.target.value;
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q="+searchString+"&api_key=BbuDrj8wfxpTM81BuTurGW8DICFM2XER&limit=5";
+
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function(response) {
+                    for (var i = 0; i < response.data.length; i++) {
+                    var gifDiv = $("<div>").addClass("gif");
+                    var image = $("<img>").attr("src", response.data[i].images.original.url);
+                    var title = $("<h3>").text(response.data[i].title);
+                    gifDiv.append(image, title);
+                    $("#imageDiv").append(gifDiv);
+                    }
+                }
+            )});
+            
+
+            $("#searchSubmit").on("click",function(){
+                event.preventDefault();
+                $("#imageDiv").empty();
+                var searchString = $("#searchBox").val();
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q="+searchString+"&api_key=BbuDrj8wfxpTM81BuTurGW8DICFM2XER&limit=5";
+                $("#buttonSection").append("<button class='dogButton btn btn-secondary' value='"+ searchString+"'"+">"+searchString+"</button>");
+
+                $.ajax({
+                url: queryURL,
+                method: "GET"
+                }).then(function(response) {
+                    console.log(response);
+                    for (var i = 0; i < response.data.length; i++) {
+                        var gifDiv = $("<div>").addClass("gif");
+                        var image = $("<img>").attr("src", response.data[i].images.original.url);
+                        var title = $("<h3>").text(response.data[i].title);
+                        gifDiv.append(image, title);
+                        $("#imageDiv").append(gifDiv);
+                    }
+                });
+            });
+            
+        </script>
+    </container>
+</body>
+</html>

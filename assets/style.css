@@ -1,0 +1,21 @@
+.dogButton {
+    margin: 3px;
+}
+
+body {
+    margin: 0 auto;
+    max-width: 980px;
+}
+
+header {
+    text-align: center;
+}
+
+#bootstrapOverrides #searchSubmit{
+    width: 200px;
+
+}
+
+#bootstrapOverrides input {
+    margin: 10px;
+}
