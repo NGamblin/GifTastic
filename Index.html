@@ -52,7 +52,7 @@
 
                 }
             };
-            
+        
             $(document).on("click", ".dogButton", function(event){
                 $("#imageDiv").empty();
                 var searchString = event.target.value;
@@ -66,6 +66,7 @@
                     var gifDiv = $("<div>").addClass("gif");
                     var image = $("<img> class='returnGif'").attr("src", response.data[i].images.original.url);
                     var title = $("<h3>").text("Rating: "+response.data[i].rating.toUpperCase());
+                    console.log(response);
                     gifDiv.append(image, title);
                     $("#imageDiv").append(gifDiv);
                     }
